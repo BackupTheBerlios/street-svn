@@ -38,6 +38,7 @@ class User:
         self.name = ''
         self.pwd = ''   #Not stored by server for security reasons.
         self.isNewUser = False
+        self.isGuest = False
         self.address = tcp.getpeername()
 
     def handleInputTCP(self):
@@ -56,7 +57,6 @@ class User:
         self.tcp.flush()
 
     def handleInputUDP(self):
-        print "UDP INPUT!!!!"
         packet = self.udp.read()
         if(not packet):
             return

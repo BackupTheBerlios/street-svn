@@ -20,4 +20,7 @@
 
 from StreetModules import Scripts, Events
 
-Events.addCallbacks('runScript', Scripts.run)
+Events.addCallbacks('runscript', Scripts.run)
+Events.addCallbacks('command-run', Scripts.run)
+
+Scripts.install('StreetScripts')

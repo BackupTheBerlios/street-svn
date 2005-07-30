@@ -87,7 +87,7 @@ def keyDown(event):
     return 0
 
 def init():
-    pyui.init(width, height, 'p3d', fullscreen = 1, title = "CodeWorld")
+    pyui.init(width, height, 'p3d', fullscreen = 0, title = "CodeWorld")
     getRenderer().setBackMethod(render)
     getDesktop().registerHandler(pyui.locals.KEYDOWN, keyDown)
     pygame.key.set_repeat(500, 30)

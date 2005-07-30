@@ -16,9 +16,8 @@
 #along with The Street; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 
-#Handles user login to the CodeWorld server.
+#Handles user login to the Street server.
 import pyui
-from pyui.dialogs import LineDisplay
 from pyui.widgets import Button, FormPanel, Panel, Window
 
 from StreetModules import Events, Network, User
@@ -31,7 +30,8 @@ class LoginWindow(Window):
 
         fields = [
             ('string', 'user', 'Name:', 24, 5),
-            ('password', 'pass', 'Password:', 24, 5)
+            ('password', 'pass', 'Password:', 24, 5),
+            ('checkbox', 'guest', '', 24, 'Login as a guest?')
             ]
 
         self.form = FormPanel(fields)
@@ -87,18 +87,22 @@ class LoginWindow(Window):
         newUser.pwd = pwd
         if(widget == self.create):
             newUser.isNewUser = True
+        if(self.form.widget_guest.checkState == 1):
+            newUser.isGuest = True
 
         self.destroy()
         return 1
 
 def init():
-    x, y = ScreenUtils.center(350, 90)
-    LoginWindow(x, y, 350, 90)
+    x, y = ScreenUtils.center(350, 100)
+    LoginWindow(x, y, 350, 100)
 
 def login(user, command = ''):
     if(command == 'user'):
         print "Sending username..."
-        if(user.isNewUser):
+        if(user.isGuest):
+            user.tcp.write('login guest ' + user.name + '\n')
+        elif(user.isNewUser):
             user.tcp.write('login newuser ' + user.name + '\n')
         else:
             user.tcp.write('login user ' + user.name + '\n')

@@ -53,7 +53,7 @@ def login(user, command = ''):
         pwdSHA = sha.new(line[1])
         if(pwdDB[user.name] == 'new' or pwdDB[user.name] == pwdSHA.digest()):
             user.tcp.write('login ok\n')
-            print "%s logged in." % user.address[0]
+            print "%s logged in as %s." % (user.address[0], user.name)
             if(pwdDB[user.name] == 'new'):
                 pwdDB[user.name] = pwdSHA.digest()
             userNames[user.name] = user
@@ -69,6 +69,15 @@ def login(user, command = ''):
             pwdDB[user.name] = 'new'
             user.tcp.write('login pass\n')
             user.isNewUser = True
+    elif(line[0] == 'guest'):
+        user.tcp.write('login ok\n')
+        if(len(line) == 2):
+            suffix = 0
+            while(line[1] + str(suffix) in userNames):
+                suffix += 1
+            user.name = line[1] + str(suffix)
+            print "%s logged in as %s." % (user.address[0], user.name)
+            userNames[user.name] = user
         
 def logout(user):
     if(user.name in userNames):

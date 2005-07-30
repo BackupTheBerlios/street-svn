@@ -18,5 +18,26 @@
 
 #Module to install, run, and maintain the CodeWorld scripts.
 
+import os
+
+directories = ['StreetScripts']
+
 def run(name):
-    execfile('StreetScripts/' + name + '.py')
+    for d in directories:
+        print d + name
+        if(os.path.exists(d + '/' + name + '.py')):
+            execfile(d + '/' + name + '.py')
+            break
+
+def install(path):
+    try:
+        directories.index(path)
+    except:
+        directories.append(path)
+
+def uninstall(path):
+    try:
+        directories.remove(path)
+    except:
+        pass
+

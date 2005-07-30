@@ -24,5 +24,5 @@ from StreetModules.Client import Core
 Events.addCallbacks('init', Core.init)
 Events.addCallbacks('run', Core.run)
 Events.addCallbacks('quit', Core.quit)
-
+Events.addCallbacks('command-quit', Core.quit)
 
