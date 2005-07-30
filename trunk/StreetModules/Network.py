@@ -360,7 +360,11 @@ class TCPSocket(Socket):
 class UDPSocket(Socket):
     def __init__(self, port=0, sock=None):
         Socket.__init__(self, socket.AF_INET, socket.SOCK_DGRAM, sock)
-        if(self.getsockname()[1] == 0):
+        #If this socket is unbound this will error or port will be 0, depending on the platform.
+        try:
+            if(self.getsockname()[1] == 0):
+                self.bind(('', port))
+        except:
             self.bind(('', port))
         self.settimeout(0)
 
