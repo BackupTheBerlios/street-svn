@@ -76,9 +76,6 @@ class User:
         Network.UDPSocket.close(self.udp)
 
 def bindUDP(user, port):
-    try: #Already bound?
-        user.udp.getpeername()
-    except: #No - bind it.
-        print "Binding UDP socket to port %i" % int(port)
-        user.udp.connect((user.address[0], int(port)))
+    print "Binding UDP socket to port %i" % int(port)
+    user.udp.connect((user.address[0], int(port)))
 

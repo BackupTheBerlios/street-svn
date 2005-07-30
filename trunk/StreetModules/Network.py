@@ -360,9 +360,7 @@ class TCPSocket(Socket):
 class UDPSocket(Socket):
     def __init__(self, port=0, sock=None):
         Socket.__init__(self, socket.AF_INET, socket.SOCK_DGRAM, sock)
-        try:
-            self.getsockname()
-        except:
+        if(self.getsockname()[1] == 0):
             self.bind(('', port))
         self.settimeout(0)
 

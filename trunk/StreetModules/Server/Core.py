@@ -28,6 +28,8 @@ from select import select
 from StreetModules import Events, Network
 from StreetModules.Server import LoginServer
 
+userNames = {}
+
 def run():
     while running:
         r, w, e = Network.multiplex(1)

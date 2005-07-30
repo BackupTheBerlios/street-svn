@@ -16,7 +16,7 @@
 #along with The Street; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 
-#Package to handle events of any type.  The driving core of CodeWorld.
+#Package to handle events of any type.  The driving core of The Street.
 
 calls = {}
 

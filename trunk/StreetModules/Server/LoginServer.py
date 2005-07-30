@@ -22,9 +22,9 @@ import sha
 import string
 
 from StreetModules.Network import TCPSocket, UDPSocket
+import Core
 from StreetModules.User import User
 
-userNames = {}
 pwdDB = dbhash.open('StreetData/Server/pwd.db', 'c')
 
 class LoginServer(TCPSocket):
@@ -38,7 +38,7 @@ class LoginServer(TCPSocket):
 
 def login(user, command = ''):
     #Already logged in?
-    if(user.name and user.name in userNames):
+    if(user.name and user.name in Core.userNames):
         return
     
     line = string.split(command, maxsplit = 1)
@@ -56,7 +56,7 @@ def login(user, command = ''):
             print "%s logged in as %s." % (user.address[0], user.name)
             if(pwdDB[user.name] == 'new'):
                 pwdDB[user.name] = pwdSHA.digest()
-            userNames[user.name] = user
+            Core.userNames[user.name] = user
         else:
             user.tcp.write('login badpass\n')
     elif(line[0] == 'newuser'):
@@ -73,13 +73,13 @@ def login(user, command = ''):
         user.tcp.write('login ok\n')
         if(len(line) == 2):
             suffix = 0
-            while(line[1] + str(suffix) in userNames):
+            while(line[1] + str(suffix) in Core.userNames):
                 suffix += 1
             user.name = line[1] + str(suffix)
             print "%s logged in as %s." % (user.address[0], user.name)
-            userNames[user.name] = user
+            Core.userNames[user.name] = user
         
 def logout(user):
-    if(user.name in userNames):
+    if(user.name in Core.userNames):
         print "%s logged out." % user.address[0]
-        del userNames[user.name]
+        del Core.userNames[user.name]
