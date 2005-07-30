@@ -18,7 +18,8 @@
 
 #Sets up a console window for testing.
 
-from StreetModules import Events
+from StreetModules.Client import ScreenUtils
 from StreetModules.Client.User import RealConsole
 
-Events.addCallbacks('start', RealConsole.init)
+x, y = ScreenUtils.center(640, 480)
+RealConsole.RealConsole(x, y, 640, 480)

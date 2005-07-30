@@ -73,9 +73,3 @@ class RealConsole(Console):
                 self.buffer = ""
                 self.tabature = 0
         self.output.endCapture()
-        
-
-def init():
-    x, y = ScreenUtils.center(640, 480)
-    RealConsole(x, y, 640, 480)
-    #pyui.dialogs.Console(x, y, 640, 480)
