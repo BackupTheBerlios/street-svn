@@ -63,8 +63,8 @@ def do(name, *args, **keys):
     if(not calls.has_key(name)):
         return
     for callback in calls[name]:
-        #try:
-        callback(*args, **keys)
-        #except Exception, exc:
-            #print "EXCEPTION: ", exc
+        try:
+            callback(*args, **keys)
+        except Exception, exc:
+            print "EXCEPTION: ", exc
     do(name + '_END', *args, **keys)
