@@ -24,7 +24,6 @@ directories = ['StreetScripts']
 
 def run(name):
     for d in directories:
-        print d + name
         if(os.path.exists(d + '/' + name + '.py')):
             execfile(d + '/' + name + '.py')
             break
