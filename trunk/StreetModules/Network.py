@@ -70,7 +70,7 @@ from StreetModules import Checksum
 _chunkSize = 8192
 _tries = 5
 
-serverAddress = ('68.198.198.25', 4242)
+serverAddress = ('192.168.2.110', 4242)
 
 rSocks = {}
 wSocks = {}

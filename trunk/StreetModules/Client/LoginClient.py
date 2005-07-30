@@ -118,8 +118,12 @@ def login(user, command = ''):
         print "Login incorrect.  Bad user/password info."
         user.closeAll()
         init()
-    elif(command == 'userdup'):
+    elif(command == 'taken'):
         print "That username is taken.  Please choose another."
+        user.closeAll()
+        init()
+    elif(command == 'duplicate'):
+        print "That user is already logged in.  If you were disconnected allow a few minutes for your user name to reset."
         user.closeAll()
         init()
     elif(command[:6] == 'bindUDP'):

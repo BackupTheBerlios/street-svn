@@ -19,7 +19,6 @@
 #A simple TCPSocket that handles new connections
 import dbhash
 import sha
-import string
 
 from StreetModules.Network import TCPSocket, UDPSocket
 import Core
@@ -37,23 +36,22 @@ class LoginServer(TCPSocket):
         newUser.tcp.write('login user\n')
 
 def login(user, command = ''):
-    #Already logged in?
-    if(user.name and user.name in Core.userNames):
-        return
-    
-    line = string.split(command, maxsplit = 1)
+    line = command.split(' ', 1)
     if(line[0] == 'user'):
         if(len(line) == 2):
             user.name = line[1]
             user.tcp.write('login pass\n')
     elif(line[0] == 'pass'):
+        if(user.name and user.name in Core.userNames):
+            user.tcp.write('login duplicate\n')
+            return
         if(not user.name or user.name not in pwdDB or len(line) != 2):
             user.tcp.write('login badpass\n')
             return
         pwdSHA = sha.new(line[1])
         if(pwdDB[user.name] == 'new' or pwdDB[user.name] == pwdSHA.digest()):
             user.tcp.write('login ok\n')
-            print "%s logged in as %s." % (user.address[0], user.name)
+            print "%s logged in from %s." % (user.name, user.address[0])
             if(pwdDB[user.name] == 'new'):
                 pwdDB[user.name] = pwdSHA.digest()
             Core.userNames[user.name] = user
@@ -63,7 +61,7 @@ def login(user, command = ''):
         if(len(line) == 2):
             user.name = line[1]
             if(user.name in pwdDB):
-                user.tcp.write('login userdup\n')
+                user.tcp.write('login taken\n')
                 user.name = ''
                 return
             pwdDB[user.name] = 'new'
@@ -73,13 +71,13 @@ def login(user, command = ''):
         user.tcp.write('login ok\n')
         if(len(line) == 2):
             suffix = 0
-            while(line[1] + str(suffix) in Core.userNames):
+            while(line[1] + str(suffix) in Core.userNames or line[1] + str(suffix) in pwdDB):
                 suffix += 1
             user.name = line[1] + str(suffix)
-            print "%s logged in as %s." % (user.address[0], user.name)
+            print "%s logged in as a guest from %s." % (user.name, user.address[0])
             Core.userNames[user.name] = user
         
 def logout(user):
     if(user.name in Core.userNames):
-        print "%s logged out." % user.address[0]
+        print "%s logged out." % user.name
         del Core.userNames[user.name]

@@ -48,8 +48,8 @@ def run():
 def init():
     global running, server
     server = LoginServer.LoginServer()
-    server.bind(('', 4242))
-    server.listen(5)
+    server.bind(('', Network.serverAddress[1]))
+    server.listen(10)
     running = True
 
 def quit():
