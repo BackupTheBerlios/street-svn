@@ -52,4 +52,7 @@ print 'Initializing the client...'
 Events.do('init')
 print 'The Street client is up and running.'
 Events.do('run')
+print "Shutting down the client..."
+print "Running shutdown events..."
 Events.do('quit')
+print "Client offline."

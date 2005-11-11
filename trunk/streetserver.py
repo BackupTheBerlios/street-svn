@@ -42,3 +42,4 @@ Events.do('run')
 print "Server shutting down..."
 print "Running shutdown events..."
 Events.do('quit')
+print "Server is offline."

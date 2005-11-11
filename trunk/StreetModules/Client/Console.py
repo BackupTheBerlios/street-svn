@@ -68,3 +68,6 @@ def showConsole():
 def hideConsole():
     global console
     console.setShow(0)
+
+def close():
+    sys.stdout = console.oldout
