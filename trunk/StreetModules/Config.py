@@ -15,17 +15,34 @@
 #You should have received a copy of the GNU General Public License
 #along with The Street; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
- 
-#This module provides chat support on the client side
 
-from StreetModules.Client import Core
+#Module to load configuration files
+#Converts an instance of OGRE's ConfigFile into a useful python dictionary
 
-def sendTell(text):
-	try:
-		Core.user.udp.write('tell ' + text + '\n')
-	except:
-		pass
+from pyogre.ogre import ConfigFile
 
-def recvTell(myUser, text):
-	(sender, message) = text.split(' ', 1)
-	print sender + ' tells you: ' + message.strip()
+class Config(dict):
+	def __init__(self, filename):
+		c = ConfigFile()
+		try:
+			c.loadFromFile(filename)
+		except:
+			pass #Silently fail if the file doesn't exist
+
+		for section, key, val in c.values:
+			self.setdefault(section, {})
+			self[section][key] = val
+	
+	def save(self, filename):
+		try:
+			f = open(filename, 'w')
+		except:
+			return False
+
+		for section in self:
+			f.write('[' + section + ']\n')
+			for key, val in self[section].items():
+				f.write(key + '=' + val + '\n')
+
+		f.close()
+		return True

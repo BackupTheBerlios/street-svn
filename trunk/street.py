@@ -31,7 +31,7 @@ class Logger:
 	def __init__(self):
 		self.oldout = sys.stdout
 		sys.stdout = self
-		self.logFile = file('clientlog.txt', 'w')
+		self.logFile = file('Street.log', 'w')
 	
 	def write(self, text):
 		self.oldout.write(text)
@@ -56,7 +56,7 @@ for script in startScripts:
 
 print 'Initializing the client...'
 Events.do('init')
-print 'The Street client is up and running.'
+print 'The Street is up and running.'
 Events.do('run')
 print "Shutting down the client..."
 print "Running shutdown events..."
